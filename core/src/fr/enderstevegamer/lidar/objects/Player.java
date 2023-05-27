@@ -101,6 +101,9 @@ public class Player {
         }
 
         if (potentialDot == null) return;
+        if (selectedWall.getColor().r == 0
+                && selectedWall.getColor().g == 0
+                && selectedWall.getColor().b == 0) return;
         selectedWall.getDots().add(new Dot(potentialDot, color));
     }
 }

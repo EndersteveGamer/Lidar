@@ -8,6 +8,7 @@ import fr.enderstevegamer.lidar.objects.Dot;
 import fr.enderstevegamer.lidar.objects.Player;
 import fr.enderstevegamer.lidar.objects.Wall;
 import fr.enderstevegamer.lidar.utils.ObjParser;
+import fr.enderstevegamer.lidar.utils.Position;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,9 +52,19 @@ public class Main extends ApplicationAdapter {
 		shape.begin(ShapeRenderer.ShapeType.Filled);
 		for (Wall wall : walls.keySet()) {
 			if (!walls.get(wall)) continue;
+			if (wall.getColor().r == 0
+					&& wall.getColor().g == 0
+					&& wall.getColor().b == 0) continue;
 			for (Dot dot : wall.getDots()) {
 				dot.draw(shape, player);
 			}
+		}
+		for (Wall wall : walls.keySet()) {
+			if (!walls.get(wall)) continue;
+			if (wall.getColor().r != 0
+					|| wall.getColor().g != 0
+					|| wall.getColor().b != 0) continue;
+			wall.draw(shape, player);
 		}
 		shape.end();
 

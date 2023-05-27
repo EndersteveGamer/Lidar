@@ -2,6 +2,7 @@ package fr.enderstevegamer.lidar.objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import fr.enderstevegamer.lidar.utils.Position;
 import fr.enderstevegamer.lidar.utils.Position2D;
 import fr.enderstevegamer.lidar.utils.ProjectionUtils;
@@ -147,5 +148,22 @@ public class Wall {
         );
         double crossProduct = AB.getX() * AC.getY() - AB.getY() * AC.getX();
         return Math.abs(crossProduct) / 2;
+    }
+
+    public void draw(ShapeRenderer shape, Player player) {
+        Position pos4 = Position.addPositions(Position.addPositions(pos1, new Vector(pos1, pos2)),
+                new Vector(pos1, pos3));
+        Position2D screenPos1 = ProjectionUtils.projectPoint(this.pos1, player);
+        Position2D screenPos2 = ProjectionUtils.projectPoint(this.pos2, player);
+        Position2D screenPos3 = ProjectionUtils.projectPoint(this.pos3, player);
+        Position2D screenPos4 = ProjectionUtils.projectPoint(pos4, player);
+
+        shape.setColor(this.color);
+        shape.triangle((float) screenPos1.getX(), (float) screenPos1.getY(),
+                (float) screenPos2.getX(), (float) screenPos2.getY(),
+                (float) screenPos3.getX(), (float) screenPos3.getY());
+        shape.triangle((float) screenPos2.getX(), (float) screenPos2.getY(),
+                (float) screenPos3.getX(), (float) screenPos3.getY(),
+                (float) screenPos4.getX(), (float) screenPos4.getY());
     }
 }
