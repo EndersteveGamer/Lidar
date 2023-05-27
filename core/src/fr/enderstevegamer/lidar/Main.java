@@ -2,7 +2,6 @@ package fr.enderstevegamer.lidar;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import fr.enderstevegamer.lidar.objects.Dot;
@@ -17,7 +16,9 @@ import java.util.HashMap;
 public class Main extends ApplicationAdapter {
 	static Player player;
 	static HashMap<Wall, Boolean> walls = new HashMap<>();
-	static final String OBJ_PATH = "C:\\Users\\theop\\OneDrive\\Bureau\\Pour coder\\Fichiers Java\\Lidar\\core\\src\\fr\\enderstevegamer\\lidar\\blender ressources\\untitled.obj";
+	// Specify the file path WITHOUT EXTENSION
+	// The mtl file must have the same name as the obj file
+	static final String OBJ_PATH = "C:\\Users\\theop\\OneDrive\\Bureau\\Pour coder\\Fichiers Java\\Lidar\\core\\src\\fr\\enderstevegamer\\lidar\\blender ressources\\untitled";
 
 	ShapeRenderer shape;
 	
@@ -49,10 +50,7 @@ public class Main extends ApplicationAdapter {
 
 		shape.begin(ShapeRenderer.ShapeType.Filled);
 		for (Wall wall : walls.keySet()) {
-			if (!walls.get(wall)) {
-				for (Dot dot : wall.getDots()) dot.color = Color.RED;
-				continue;
-			}
+			if (!walls.get(wall)) continue;
 			for (Dot dot : wall.getDots()) {
 				dot.draw(shape, player);
 			}

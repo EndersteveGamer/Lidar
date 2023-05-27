@@ -87,11 +87,17 @@ public class Wall {
     }
 
     public boolean isVisible(Player player) {
+        Position pos4 = Position.addPositions(Position.addPositions(pos1, new Vector(pos1, pos2)),
+                new Vector(pos1, pos3));
+
+        if (player.getPos().distanceWith(this.pos1) > Dot.VIEW_DISTANCE
+                && player.getPos().distanceWith(this.pos2) > Dot.VIEW_DISTANCE
+                && player.getPos().distanceWith(this.pos3) > Dot.VIEW_DISTANCE
+                && player.getPos().distanceWith(pos4) > Dot.VIEW_DISTANCE) return false;
+
         Position2D screenPos1 = ProjectionUtils.projectPoint(this.pos1, player);
         Position2D screenPos2 = ProjectionUtils.projectPoint(this.pos2, player);
         Position2D screenPos3 = ProjectionUtils.projectPoint(this.pos3, player);
-        Position pos4 = Position.addPositions(Position.addPositions(pos1, new Vector(pos1, pos2)),
-                new Vector(pos1, pos3));
         Position2D screenPos4 = ProjectionUtils.projectPoint(pos4, player);
 
         Position2D screenBottomLeft = new Position2D(-SCREEN_ERROR_TRESHOLD,

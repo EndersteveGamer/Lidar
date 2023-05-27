@@ -8,6 +8,7 @@ import fr.enderstevegamer.lidar.utils.ProjectionUtils;
 
 public class Dot {
     private static final int DRAW_SIZE = 10;
+    public static final double VIEW_DISTANCE = 10;
     Position pos;
     public Color color;
 
@@ -22,10 +23,18 @@ public class Dot {
 
     public void draw(ShapeRenderer shape, Player viewer) {
         double distanceWithViewer = this.pos.distanceWith(viewer.getPos());
+        if (distanceWithViewer > VIEW_DISTANCE) return;
         float size = (float) (DRAW_SIZE / distanceWithViewer);
 
         Position2D screenPos = ProjectionUtils.projectPoint(this.pos, viewer);
-        shape.setColor(color);
+        double darkMultiplier = 1 - distanceWithViewer / VIEW_DISTANCE;
+        Color drawColor = new Color(
+                (float) (color.r * darkMultiplier),
+                (float) (color.g * darkMultiplier),
+                (float) (color.b * darkMultiplier),
+                color.a
+        );
+        shape.setColor(drawColor);
         shape.circle((float) screenPos.getX(), (float) screenPos.getY(), size);
     }
 }
