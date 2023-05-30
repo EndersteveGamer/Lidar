@@ -60,7 +60,6 @@ public class Main extends ApplicationAdapter {
 			}
 		}
 		for (Wall wall : walls.keySet()) {
-			if (!walls.get(wall)) continue;
 			if (wall.getColor().r != 0
 					|| wall.getColor().g != 0
 					|| wall.getColor().b != 0) continue;

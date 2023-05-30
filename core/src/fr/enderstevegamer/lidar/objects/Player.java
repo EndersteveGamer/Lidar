@@ -93,7 +93,7 @@ public class Player {
                 color = result.getColor();
                 selectedWall = wall;
             }
-            else if (this.pos.distanceWith(result.getPos()) < this.pos.distanceWith(potentialDot)) {
+            else if (this.getPos().distanceWith(result.getPos()) < this.getPos().distanceWith(potentialDot)) {
                 potentialDot = result.getPos();
                 color = result.getColor();
                 selectedWall = wall;

@@ -1,10 +1,12 @@
 package fr.enderstevegamer.lidar.utils;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import fr.enderstevegamer.lidar.objects.Wall;
 
 public class IntersectionUtils {
     public static IntersectionResult getIntersection(Position pos1, Position pos2, Wall wall) {
+        String debug = "";
         Vector Lab = new Vector(pos1, pos2);
         Position La = new Position(pos1);
         Vector P01 = new Vector(wall.getPos1(), wall.getPos2());
@@ -12,6 +14,7 @@ public class IntersectionUtils {
         Position P0 = new Position(wall.getPos1());
 
         double determinant = Lab.multiply(-1).dot(P01.crossProduct(P02));
+        debug += "Determinant: " + determinant + "\n";
         if (determinant == 0) return null;
 
         double t = (
@@ -29,6 +32,14 @@ public class IntersectionUtils {
 
         if (t <= 0) return null;
         if (u < 0 || u > 1 || v < 0 || v > 1) return null;
+
+        debug += "t: " + t + "\n";
+        debug += "u: " + u + "\n";
+        debug += "v: " + v + "\n";
+
+        if (wall.getColor().r == 1
+                && wall.getColor().g == 0
+                && wall.getColor().b == 0) Gdx.app.log("Debug", debug);
 
         return new IntersectionResult(Position.addPositions(La, Lab.multiply(t)), wall.getColor());
     }
