@@ -3,10 +3,7 @@ package fr.enderstevegamer.lidar.objects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import fr.enderstevegamer.lidar.utils.Position;
-import fr.enderstevegamer.lidar.utils.Position2D;
-import fr.enderstevegamer.lidar.utils.ProjectionUtils;
-import fr.enderstevegamer.lidar.utils.Vector;
+import fr.enderstevegamer.lidar.utils.*;
 
 import java.util.ArrayList;
 
@@ -165,5 +162,15 @@ public class Wall {
         shape.triangle((float) screenPos2.getX(), (float) screenPos2.getY(),
                 (float) screenPos3.getX(), (float) screenPos3.getY(),
                 (float) screenPos4.getX(), (float) screenPos4.getY());
+    }
+
+    public double getClosestCornerDistance(Position pos) {
+        Position pos4 = Position.addPositions(Position.addPositions(pos1, new Vector(pos1, pos2)),
+                new Vector(pos1, pos3));
+        return MathUtils.min(
+                pos.distanceWith(this.pos1),
+                pos.distanceWith(this.pos2),
+                pos.distanceWith(this.pos3),
+                pos.distanceWith(pos4));
     }
 }

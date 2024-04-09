@@ -8,4 +8,12 @@ public class MathUtils {
         }
         return max;
     }
+
+    public static double min(double... doubles) {
+        double min = doubles[0];
+        for (double num : doubles) {
+            if (num < min) min = num;
+        }
+        return min;
+    }
 }

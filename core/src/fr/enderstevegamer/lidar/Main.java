@@ -8,7 +8,6 @@ import fr.enderstevegamer.lidar.objects.Dot;
 import fr.enderstevegamer.lidar.objects.Player;
 import fr.enderstevegamer.lidar.objects.Wall;
 import fr.enderstevegamer.lidar.utils.ObjParser;
-import fr.enderstevegamer.lidar.utils.Position;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,21 +49,7 @@ public class Main extends ApplicationAdapter {
 		walls.replaceAll((w, v) -> w.isVisible(player));
 
 		shape.begin(ShapeRenderer.ShapeType.Filled);
-		for (Wall wall : walls.keySet()) {
-			if (!walls.get(wall)) continue;
-			if (wall.getColor().r == 0
-					&& wall.getColor().g == 0
-					&& wall.getColor().b == 0) continue;
-			for (Dot dot : wall.getDots()) {
-				dot.draw(shape, player);
-			}
-		}
-		for (Wall wall : walls.keySet()) {
-			if (wall.getColor().r != 0
-					|| wall.getColor().g != 0
-					|| wall.getColor().b != 0) continue;
-			wall.draw(shape, player);
-		}
+		drawWalls(shape);
 		shape.end();
 
 		((InputHandler) Gdx.input.getInputProcessor()).heldKeys();
@@ -81,5 +66,35 @@ public class Main extends ApplicationAdapter {
 
 	public static void shootRay() {
 		player.shootRay(walls);
+	}
+
+	private static void drawWalls(ShapeRenderer shape) {
+		ArrayList<Wall> toDraw = new ArrayList<>();
+		for (Wall wall : walls.keySet()) {
+			if (walls.get(wall)
+					|| (wall.getColor().r == 0
+					&& wall.getColor().g == 0
+					&& wall.getColor().b == 0)) toDraw.add(wall);
+		}
+		toDraw.sort((w2, w1) -> compareWalls(w1, w2));
+		for (Wall wall : toDraw) {
+			if (wall.getColor().r != 0
+					|| wall.getColor().g != 0
+					|| wall.getColor().b != 0) {
+				for (Dot dot : wall.getDots()) {
+					dot.draw(shape, player);
+				}
+			}
+			else wall.draw(shape, player);
+		}
+	}
+
+	private static int compareWalls(Wall wall1, Wall wall2) {
+		/*return Double.compare(wall1.getClosestCornerDistance(player.getPos()),
+				wall2.getClosestCornerDistance(player.getPos()));*/
+		if (wall1.getColor().r == 0
+				&& wall1.getColor().g == 0
+				&& wall1.getColor().b == 0) return -1;
+		return 0;
 	}
 }
